@@ -1,50 +1,25 @@
-# Welcome to your Expo app 👋
+Project Name: TO-DO List App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Description:
+A mobile task management app built with React Native and Expo, allowing users to add, edit, complete, and delete tasks with a clean and intuitive interface. The app supports persistent storage using AsyncStorage and features dynamic theming.
 
-## Get started
+Key Features:
 
-1. Install dependencies
+Add, edit, and delete tasks
 
-   ```bash
-   npm install
-   ```
+Mark tasks as completed with a checkbox
 
-2. Start the app
+Persistent storage across sessions using AsyncStorage
 
-   ```bash
-   npx expo start
-   ```
+Beautiful UI with LinearGradient and Ionicons
 
-In the output, you'll find options to open the app in a
+Works on Android 
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Prepared for production using EAS Build
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Technologies:
+React Native | Expo | TypeScript | AsyncStorage | Expo LinearGradient | EAS Build
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Project Link (APK/Preview):
+Download APK https://expo.dev/accounts/zeinab81/projects/TO-DO-LIST/builds/7aec73b3-4d7a-4dfd-82f4-926b22bbf15f
+ (Note: use Preview APK for direct installation)
