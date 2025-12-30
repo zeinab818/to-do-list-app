@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "TO-DO-LIST",
-    "slug": "TO-DO-LIST",
+    "name": "to-do-list",
+    "slug": "to-do-list",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.jpeg",
+    "icon": "./assets/images/icon.png",
     "scheme": "todolist",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,17 +14,17 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/icon.jpeg",
-        "backgroundImage": "./assets/images/icon.jpeg",
-        "monochromeImage": "./assets/images/icon.jpeg"
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.zeinab81.TODOLIST"
+      "package": "com.zeinab81.todolist"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/icon.jpeg"
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
@@ -48,8 +48,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "7b79c66d-143d-4881-b153-d1cf22e65cd6"
+        "projectId": "1eb0f400-b0c2-4e00-8d7a-1ba3e05730b0"
       }
-y    }
+    },
+    "owner": "zeinab81"
   }
 }
