@@ -1,28 +1,24 @@
-import { createHomeStyles } from "@/assets/styles/home.styles";
-import { useTodos } from "@/context/TodoContext";
-import useTheme from "@/hooks/useTheme";
-import { Ionicons } from "@expo/vector-icons";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
+import { createHomeStyles } from "@/assets/styles/home.styles";
+import useTheme from "@/hooks/useTheme";
+import { TodoType, useTodos } from "@/context/TodoContext";
 import { useState } from "react";
-import { Alert, TextInput, TouchableOpacity, View } from "react-native";
 
-const TodoInput = () => {
+type Props = { type: TodoType };
+
+const TodoInput = ({ type }: Props) => {
   const { colors } = useTheme();
   const homeStyles = createHomeStyles(colors);
-
   const { addTodo } = useTodos();
+
   const [newTodo, setNewTodo] = useState("");
 
-  const handleAddTodo = async () => {
+  const handleAdd = async () => {
     if (!newTodo.trim()) return;
-
-    try {
-      await addTodo(newTodo.trim());
-      setNewTodo("");
-    } catch (error) {
-      console.log("Error adding todo", error);
-      Alert.alert("Error", "Failed to add todo");
-    }
+    await addTodo(newTodo.trim(), type);
+    setNewTodo("");
   };
 
   return (
@@ -30,30 +26,23 @@ const TodoInput = () => {
       <View style={homeStyles.inputWrapper}>
         <TextInput
           style={homeStyles.input}
-          placeholder="What needs to be done?"
+          placeholder={`Add ${type} task`}
           value={newTodo}
           onChangeText={setNewTodo}
-          onSubmitEditing={handleAddTodo}
+          onSubmitEditing={handleAdd}
           placeholderTextColor={colors.textMuted}
         />
 
-        <TouchableOpacity
-          onPress={handleAddTodo}
-          activeOpacity={0.8}
-          disabled={!newTodo.trim()}
-        >
+        <TouchableOpacity onPress={handleAdd} disabled={!newTodo.trim()}>
           <LinearGradient
             colors={
               newTodo.trim()
                 ? colors.gradients.primary
                 : colors.gradients.muted
             }
-            style={[
-              homeStyles.addButton,
-              !newTodo.trim() && homeStyles.addButtonDisabled,
-            ]}
+            style={homeStyles.addButton}
           >
-            <Ionicons name="add" size={24} color="#ffffff" />
+            <Ionicons name="add" size={24} color="#fff" />
           </LinearGradient>
         </TouchableOpacity>
       </View>

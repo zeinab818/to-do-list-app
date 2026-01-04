@@ -1,15 +1,19 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { createContext, useContext, useEffect, useState } from "react";
+
+export type TodoType = "Today" | "Daily" | "Weekly" | "Monthly" | "Yearly";
 
 export type Todo = {
   id: string;
   text: string;
+  type: TodoType;
   isCompleted: boolean;
+  createdAt: string; 
 };
 
 type TodosContextType = {
   todos: Todo[];
-  addTodo: (text: string) => void;
+  addTodo: (text: string, type: TodoType) => void;
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
   editTodo: (id: string, text: string) => void;
@@ -22,40 +26,54 @@ export const TodosProvider = ({ children }: { children: React.ReactNode }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isReady, setIsReady] = useState(false);
 
-  // Load todos once
+  // Load todos from AsyncStorage
   useEffect(() => {
-    AsyncStorage.getItem("TODOS").then(stored => {
+    AsyncStorage.getItem("TODOS").then((stored) => {
       setTodos(stored ? JSON.parse(stored) : []);
       setIsReady(true);
     });
   }, []);
 
-  // Helper function to update state & AsyncStorage together
+  // Update state & AsyncStorage
   const saveTodos = (updater: (prev: Todo[]) => Todo[]) => {
-    setTodos(prev => {
+    setTodos((prev) => {
       const updated = updater(prev);
-      AsyncStorage.setItem("TODOS", JSON.stringify(updated)).catch(err =>
+      AsyncStorage.setItem("TODOS", JSON.stringify(updated)).catch((err) =>
         console.log("Error saving todos:", err)
       );
       return updated;
     });
   };
+  // TodoContext.tsx (مختصر للجزء المهم)
 
-  const addTodo = (text: string) => {
-    const newTodo: Todo = { id: Date.now().toString(), text: text.trim(), isCompleted: false };
-    saveTodos(prev => [newTodo, ...prev]);
+  const addTodo = async (text: string, type: TodoType) => {
+    const newTodo: Todo = {
+      id: Date.now().toString(),
+      text,
+      type,
+      isCompleted: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    const updated = [newTodo, ...todos];
+    setTodos(updated);
+    await AsyncStorage.setItem("TODOS", JSON.stringify(updated));
   };
 
   const toggleTodo = (id: string) => {
-    saveTodos(prev => prev.map(t => (t.id === id ? { ...t, isCompleted: !t.isCompleted } : t)));
+    saveTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, isCompleted: !t.isCompleted } : t))
+    );
   };
 
   const deleteTodo = (id: string) => {
-    saveTodos(prev => prev.filter(t => t.id !== id));
+    saveTodos((prev) => prev.filter((t) => t.id !== id));
   };
 
   const editTodo = (id: string, text: string) => {
-    saveTodos(prev => prev.map(t => (t.id === id ? { ...t, text: text.trim() } : t)));
+    saveTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, text: text.trim() } : t))
+    );
   };
 
   const clearTodos = () => {

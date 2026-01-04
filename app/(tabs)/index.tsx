@@ -1,7 +1,9 @@
 import { createHomeStyles } from "@/assets/styles/home.styles";
 import EmptyState from "@/components/EmptyState";
 import Header from "@/components/Header";
+
 import TodoInput from "@/components/TodoInput";
+import { Todo, TodoType, useTodos } from "@/context/TodoContext";
 import useTheme from "@/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,20 +18,22 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTodos, Todo } from "@/context/TodoContext";
+import { formatTodoDate } from "./../../functions/date";
 
 export default function Index() {
   const { colors } = useTheme();
   const homeStyles = createHomeStyles(colors);
 
-  const { todos, addTodo, toggleTodo, deleteTodo, editTodo } = useTodos();
+  const { todos, toggleTodo, deleteTodo, editTodo } = useTodos();
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
+  const [activeTab, setActiveTab] = useState<TodoType | "All">("All");
+
 
   const handleEditTodo = (todo: Todo) => {
-    setEditText(todo.text);
     setEditingId(todo.id);
+    setEditText(todo.text);
   };
 
   const handleSaveEdit = () => {
@@ -51,10 +55,7 @@ export default function Index() {
         text: "Delete",
         style: "destructive",
         onPress: () => {
-          if (editingId === id) {
-            setEditingId(null);
-            setEditText("");
-          }
+          if (editingId === id) handleCancelEdit();
           deleteTodo(id);
         },
       },
@@ -167,6 +168,23 @@ export default function Index() {
                     <Ionicons name="trash" size={14} color="#fff" />
                   </LinearGradient>
                 </TouchableOpacity>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: 4,
+                  }}
+                >
+                  <Ionicons
+                    name="time-outline"
+                    size={12}
+                    color={colors.textMuted}
+                    style={{ marginRight: 4 }}
+                  />
+                  <Text style={{ fontSize: 11, color: colors.textMuted }}>
+                    {formatTodoDate(item.createdAt)}
+                  </Text>
+                </View>
               </View>
             </View>
           )}
@@ -174,7 +192,14 @@ export default function Index() {
       </View>
     );
   };
-
+  const filteredTodos =
+    activeTab === "All"
+      ? todos
+      : todos.filter((todo) => todo.type === activeTab);
+const sortedTodos = [...filteredTodos].sort((a, b) => {
+  if (a.isCompleted === b.isCompleted) return 0;
+  return a.isCompleted ? 1 : -1;
+});
   return (
     <LinearGradient
       colors={colors.gradients.background}
@@ -182,17 +207,22 @@ export default function Index() {
     >
       <StatusBar barStyle={colors.statusBarStyle} />
       <SafeAreaView style={homeStyles.safeArea}>
-        <Header todos={todos} />
-        <TodoInput />
+        <Header
+          todos={todos}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab as (tab: TodoType | "All") => void}
+        />
+        <TodoInput type={activeTab} />
 
-        <FlatList
-          data={todos}
+       <FlatList
+          data={sortedTodos}
           renderItem={renderTodoItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           style={homeStyles.todoList}
           contentContainerStyle={homeStyles.todoListContent}
           ListEmptyComponent={<EmptyState />}
         />
+
       </SafeAreaView>
     </LinearGradient>
   );
