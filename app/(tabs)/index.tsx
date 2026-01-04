@@ -7,7 +7,7 @@ import { Todo, TodoType, useTodos } from "@/context/TodoContext";
 import useTheme from "@/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -20,7 +20,25 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { formatTodoDate } from "./../../functions/date";
 
+import { getDailyQuote } from "@/functions/getDailyQoute";
+import { type } from './../../to-do-list/components/themed-text';
+
+
 export default function Index() {
+  useEffect(() => {
+    Alert.alert(
+      "🌱 Today’s Intention",
+      getDailyQuote(),
+      [
+        { text: "I’m ready 💪" },
+        { text: "Let’s go 🚀" },
+        
+      ],
+      { cancelable: true }
+    );
+  }, []);
+
+
   const { colors } = useTheme();
   const homeStyles = createHomeStyles(colors);
 
@@ -66,7 +84,9 @@ export default function Index() {
     const isEditing = editingId === item.id;
 
     return (
+  
       <View style={homeStyles.todoItemWrapper}>
+
         <LinearGradient
           colors={colors.gradients.surface}
           style={homeStyles.todoItem}
@@ -201,6 +221,7 @@ const sortedTodos = [...filteredTodos].sort((a, b) => {
   return a.isCompleted ? 1 : -1;
 });
   return (
+   
     <LinearGradient
       colors={colors.gradients.background}
       style={homeStyles.container}
@@ -212,7 +233,10 @@ const sortedTodos = [...filteredTodos].sort((a, b) => {
           activeTab={activeTab}
           setActiveTab={setActiveTab as (tab: TodoType | "All") => void}
         />
-        <TodoInput type={activeTab} />
+        {activeTab !== "All" && (
+          <TodoInput type={activeTab} />
+        )}
+  
 
        <FlatList
           data={sortedTodos}

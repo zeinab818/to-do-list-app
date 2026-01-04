@@ -82,6 +82,7 @@ export const createHomeStyles = (colors: ColorScheme) => {
     inputSection: {
       paddingHorizontal: 24,
       paddingBottom: 12,
+      paddingTop:12
     },
     inputWrapper: {
       flexDirection: "row",
