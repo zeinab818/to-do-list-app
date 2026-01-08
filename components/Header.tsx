@@ -25,8 +25,8 @@ const Header = ({ todos, activeTab, setActiveTab }: Props) => {
 
   const tabs = [
     "All",
+     "Daily",
     "Today",
-    "Daily",
     "Weekly",
     "Monthly",
     "Yearly",
@@ -35,8 +35,9 @@ const Header = ({ todos, activeTab, setActiveTab }: Props) => {
   ];
   const tabTitles: Record<string, string> = {
   All: "All Tasks 📋",
-  Today: "Today's Tasks 👀",
   Daily: "Daily Routine 🔁",
+  Today: "Today's Tasks 👀",
+ 
   Weekly: "Weekly Goals 📆",
   Monthly: "Monthly Plans 🗓️",
   Yearly: "Yearly Vision ✨",

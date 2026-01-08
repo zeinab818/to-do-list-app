@@ -1,7 +1,6 @@
 import { createHomeStyles } from "@/assets/styles/home.styles";
 import EmptyState from "@/components/EmptyState";
 import Header from "@/components/Header";
-
 import TodoInput from "@/components/TodoInput";
 import { Todo, TodoType, useTodos } from "@/context/TodoContext";
 import useTheme from "@/hooks/useTheme";
@@ -19,10 +18,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { formatTodoDate } from "./../../functions/date";
-
 import { getDailyQuote } from "@/functions/getDailyQoute";
-import { type } from './../../to-do-list/components/themed-text';
-
 
 export default function Index() {
   useEffect(() => {
@@ -32,22 +28,18 @@ export default function Index() {
       [
         { text: "I’m ready 💪" },
         { text: "Let’s go 🚀" },
-        
       ],
       { cancelable: true }
     );
   }, []);
 
-
   const { colors } = useTheme();
   const homeStyles = createHomeStyles(colors);
-
   const { todos, toggleTodo, deleteTodo, editTodo } = useTodos();
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
   const [activeTab, setActiveTab] = useState<TodoType | "All">("All");
-
 
   const handleEditTodo = (todo: Todo) => {
     setEditingId(todo.id);
@@ -84,13 +76,8 @@ export default function Index() {
     const isEditing = editingId === item.id;
 
     return (
-  
       <View style={homeStyles.todoItemWrapper}>
-
-        <LinearGradient
-          colors={colors.gradients.surface}
-          style={homeStyles.todoItem}
-        >
+        <LinearGradient colors={colors.gradients.surface} style={homeStyles.todoItem}>
           {/* Checkbox */}
           <TouchableOpacity
             style={homeStyles.checkbox}
@@ -98,19 +85,14 @@ export default function Index() {
             onPress={() => toggleTodo(item.id)}
           >
             <LinearGradient
-              colors={
-                item.isCompleted
-                  ? colors.gradients.success
-                  : colors.gradients.muted
-              }
+              colors={item.isCompleted ? colors.gradients.success : colors.gradients.muted}
               style={homeStyles.checkboxInner}
             >
-              {item.isCompleted && (
-                <Ionicons name="checkmark" size={18} color="#fff" />
-              )}
+              {item.isCompleted && <Ionicons name="checkmark" size={18} color="#fff" />}
             </LinearGradient>
           </TouchableOpacity>
 
+          {/* Todo Text + Type Badge */}
           {isEditing ? (
             <View style={homeStyles.editContainer}>
               <TextInput
@@ -124,23 +106,13 @@ export default function Index() {
               />
               <View style={homeStyles.editButtons}>
                 <TouchableOpacity onPress={handleSaveEdit} activeOpacity={0.8}>
-                  <LinearGradient
-                    colors={colors.gradients.success}
-                    style={homeStyles.editButton}
-                  >
+                  <LinearGradient colors={colors.gradients.success} style={homeStyles.editButton}>
                     <Ionicons name="checkmark" size={16} color="#fff" />
                     <Text style={homeStyles.editButtonText}>Save</Text>
                   </LinearGradient>
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={handleCancelEdit}
-                  activeOpacity={0.8}
-                >
-                  <LinearGradient
-                    colors={colors.gradients.muted}
-                    style={homeStyles.editButton}
-                  >
+                <TouchableOpacity onPress={handleCancelEdit} activeOpacity={0.8}>
+                  <LinearGradient colors={colors.gradients.muted} style={homeStyles.editButton}>
                     <Ionicons name="close" size={16} color="#fff" />
                     <Text style={homeStyles.editButtonText}>Cancel</Text>
                   </LinearGradient>
@@ -149,58 +121,51 @@ export default function Index() {
             </View>
           ) : (
             <View style={homeStyles.todoTextContainer}>
-              <Text
-                style={[
-                  homeStyles.todoText,
-                  item.isCompleted && {
-                    textDecorationLine: "line-through",
-                    color: colors.textMuted,
-                    opacity: 0.6,
-                  },
-                ]}
-              >
-                {item.text}
-              </Text>
-
-              <View style={homeStyles.todoActions}>
-                {/* Edit */}
-                <TouchableOpacity
-                  onPress={() => handleEditTodo(item)}
-                  activeOpacity={0.8}
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                <Text
+                  style={[
+                    homeStyles.todoText,
+                    item.isCompleted && { textDecorationLine: "line-through", color: colors.textMuted, opacity: 0.6 },
+                  ]}
                 >
-                  <LinearGradient
-                    colors={colors.gradients.warning}
-                    style={homeStyles.actionButton}
+                  {item.text}
+                </Text>
+
+                {activeTab === "All" && (
+                  <View
+                    style={{
+                      backgroundColor: colors.border,
+                      paddingHorizontal: 8,
+                      paddingVertical: 2,
+                      borderRadius: 8,
+                    }}
                   >
+                    <Text style={{ fontSize: 10, color: colors.textMuted, textTransform: "capitalize" }}>
+                      {item.type}
+                    </Text>
+                  </View>
+                )}
+              </View>
+
+              {/* Actions + Date */}
+              <View style={{ flexDirection: "row", alignItems: "center", marginTop: 4 }}>
+                {/* Edit */}
+                <TouchableOpacity onPress={() => handleEditTodo(item)} activeOpacity={0.8}>
+                  <LinearGradient colors={colors.gradients.warning} style={homeStyles.actionButton}>
                     <Ionicons name="pencil" size={14} color="#fff" />
                   </LinearGradient>
                 </TouchableOpacity>
 
                 {/* Delete */}
-                <TouchableOpacity
-                  onPress={() => handleDeleteTodo(item.id)}
-                  activeOpacity={0.8}
-                >
-                  <LinearGradient
-                    colors={colors.gradients.danger}
-                    style={homeStyles.actionButton}
-                  >
+                <TouchableOpacity onPress={() => handleDeleteTodo(item.id)} activeOpacity={0.8}>
+                  <LinearGradient colors={colors.gradients.danger} style={homeStyles.actionButton}>
                     <Ionicons name="trash" size={14} color="#fff" />
                   </LinearGradient>
                 </TouchableOpacity>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginTop: 4,
-                  }}
-                >
-                  <Ionicons
-                    name="time-outline"
-                    size={12}
-                    color={colors.textMuted}
-                    style={{ marginRight: 4 }}
-                  />
+
+                {/* Date */}
+                <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 8 }}>
+                  <Ionicons name="time-outline" size={12} color={colors.textMuted} style={{ marginRight: 4 }} />
                   <Text style={{ fontSize: 11, color: colors.textMuted }}>
                     {formatTodoDate(item.createdAt)}
                   </Text>
@@ -212,33 +177,18 @@ export default function Index() {
       </View>
     );
   };
-  const filteredTodos =
-    activeTab === "All"
-      ? todos
-      : todos.filter((todo) => todo.type === activeTab);
-const sortedTodos = [...filteredTodos].sort((a, b) => {
-  if (a.isCompleted === b.isCompleted) return 0;
-  return a.isCompleted ? 1 : -1;
-});
+
+  const filteredTodos = activeTab === "All" ? todos : todos.filter((todo) => todo.type === activeTab);
+  const sortedTodos = [...filteredTodos].sort((a, b) => (a.isCompleted === b.isCompleted ? 0 : a.isCompleted ? 1 : -1));
+
   return (
-   
-    <LinearGradient
-      colors={colors.gradients.background}
-      style={homeStyles.container}
-    >
+    <LinearGradient colors={colors.gradients.background} style={homeStyles.container}>
       <StatusBar barStyle={colors.statusBarStyle} />
       <SafeAreaView style={homeStyles.safeArea}>
-        <Header
-          todos={todos}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab as (tab: TodoType | "All") => void}
-        />
-        {activeTab !== "All" && (
-          <TodoInput type={activeTab} />
-        )}
-  
+        <Header todos={todos} activeTab={activeTab} setActiveTab={setActiveTab as (tab: TodoType | "All") => void} />
+        {activeTab !== "All" && <TodoInput type={activeTab} />}
 
-       <FlatList
+        <FlatList
           data={sortedTodos}
           renderItem={renderTodoItem}
           keyExtractor={(item) => item.id}
@@ -246,7 +196,6 @@ const sortedTodos = [...filteredTodos].sort((a, b) => {
           contentContainerStyle={homeStyles.todoListContent}
           ListEmptyComponent={<EmptyState />}
         />
-
       </SafeAreaView>
     </LinearGradient>
   );

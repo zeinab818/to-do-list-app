@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-export type TodoType = "All" | "Today" | "Daily" | "Weekly" | "Monthly" | "Yearly";
+export type TodoType = "All" |  "Daily" |"Today" | "Weekly" | "Monthly" | "Yearly";
 
 export type Todo = {
   id: string;

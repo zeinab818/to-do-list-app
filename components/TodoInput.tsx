@@ -25,6 +25,8 @@ const TodoInput = ({ type }: Props) => {
     <View style={homeStyles.inputSection}>
       <View style={homeStyles.inputWrapper}>
         <TextInput
+          returnKeyType="done"
+          blurOnSubmit
           style={homeStyles.input}
           placeholder={`Add ${type} task`}
           value={newTodo}
