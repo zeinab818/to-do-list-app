@@ -1,25 +1,35 @@
-Project Name: TO-DO List App
 
-Description:
-A mobile task management app built with React Native and Expo, allowing users to add, edit, complete, and delete tasks with a clean and intuitive interface. The app supports persistent storage using AsyncStorage and features dynamic theming.
 
-Key Features:
+📱 TO-DO List App
 
-Add, edit, and delete tasks
+Description
+A modern mobile task management application built with React Native and Expo.
+The app allows users to organize their tasks efficiently with a clean, elegant UI and smooth user experience. Tasks are stored persistently using AsyncStorage, and the app supports dynamic theming.
 
-Mark tasks as completed with a checkbox
+✨ Key Features
 
-Persistent storage across sessions using AsyncStorage
+Add, edit, and delete tasks easily
 
-Beautiful UI with LinearGradient and Ionicons
+Mark tasks as completed with interactive checkboxes
 
-Works on Android 
+Automatic sorting (completed tasks move to the bottom)
 
-Prepared for production using EAS Build
+Persistent data storage using AsyncStorage
 
-Technologies:
-React Native | Expo | TypeScript | AsyncStorage | Expo LinearGradient | EAS Build
+Clean and elegant UI using LinearGradient
+
+Icons powered by Ionicons
+
+Supports task categories (Daily, Weekly, Monthly, Yearly)
+
+Fully functional on Android
+
+Ready for production using EAS Build
+
+🛠 Technologies Used
+
+React Native · Expo · TypeScript · AsyncStorage · Expo LinearGradient · Ionicons · EAS Build
 
 Project Link (APK/Preview):
-Download APK https://expo.dev/accounts/zeinab81/projects/TO-DO-LIST/builds/7aec73b3-4d7a-4dfd-82f4-926b22bbf15f
+Download APK https://expo.dev/accounts/zeinab81/projects/TO-DO-LIST/builds/06576e68-adb1-448c-a875-2b544dcfe28c
  (Note: use Preview APK for direct installation)
